@@ -1,0 +1,28 @@
+{
+  "name": "automation-repository",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@faker-js/faker": "^8.4.1",
+    "@playwright/test": "^1.49.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.0.0",
+    "@zerostep/playwright": "^0.1.5",
+    "allure-commandline": "^2.32.0",
+    "allure-playwright": "^3.0.6",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.1.0"
+  },
+  "scripts": {
+    "tests:chrome": "playwright test --config=playwright.config.ts --project=chromium",
+    "tests:api": "playwright test --config=api.config.ts --project=chromium"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
