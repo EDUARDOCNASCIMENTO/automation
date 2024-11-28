@@ -8,7 +8,7 @@ export class MessageActions {
     this.reqContext = request;
   }
 
-  // POST USER REQUEST
+  // POST CATEGORIES REQUEST
   public async postCategories(body: any, returns: any, status: number) {
     let statusResponse: number;
     let callResponse: any;
@@ -42,62 +42,37 @@ export class MessageActions {
     });
   }
 
-  // GET ALL USERS REQUEST
-  public async getCategories(returns: any, status: any) {
-    let statusResponse: number;
-    let callResponse: any;
-
-    await test.step("1 - GET all categories", async () => {
-      const response = await this.reqContext.get(`/api/v1/categories`, {
-        headers: {
-          "x-auth-token": `${Env.TOKEN}`,
-        },
+    // GET CATEGORIES REQUEST
+    public async getCategories(id: string | undefined, returns: any, status: any) {
+      let statusResponse: number;
+      let callResponse: any;
+  
+      const url = id ? `/api/v1/categories/${id}` : `/api/v1/categories`;
+  
+      await test.step(`01 - GET request to ${url}`, async () => {
+        const response = await this.reqContext.get(url);
+        statusResponse = response.status();
+        callResponse = await response.json();
       });
-      statusResponse = response.status();
-      callResponse = await response.json();
-    });
-
-    await test.step(`2 - Validate GET status: ${status}`, async () => {
-      expect(statusResponse, "Expected status").toBe(status);
-    });
-
-    await test.step("3 - Validate GET response", async () => {
-      expect
-        .soft(callResponse[0], "The response does match the expected body.")
-        .toEqual(returns);
-    });
-  }
-
-  // GET USER BY ID REQUEST
-  public async getCategoryById(returns: any, status: any) {
-    let statusResponse: number;
-    let callResponse: any;
-
-    await test.step(`01 - GET categories by ID: ${Env.CATEGORY_ID}`, async () => {
-      const response = await this.reqContext.get(
-        `/api/v1/categories/${Env.CATEGORY_ID}`,
-        {
-          headers: {
-            "x-auth-token": `${Env.TOKEN}`,
-          },
+  
+      await test.step(`02 - Validate GET status: ${status}`, async () => {
+        expect(statusResponse, "Expected status").toBe(status);
+      });
+  
+      await test.step("03 - Validate GET response", async () => {
+        if (Array.isArray(callResponse)) {
+          expect
+            .soft(callResponse[0], "The GET ALL response does match the expected body.")
+            .toEqual(returns);
+        } else {
+          expect
+            .soft(callResponse, "The GET BY ID response does match the expected body.")
+            .toEqual(returns);
         }
-      );
-      statusResponse = response.status();
-      callResponse = await response.json();
-    });
+      });
+    }
 
-    await test.step(`2 - Validate GET status: ${status}`, async () => {
-      expect(statusResponse, "Expected status").toBe(status);
-    });
-
-    await test.step("3 - Validate GET response", async () => {
-      expect
-        .soft(callResponse, "The GET response does match the expected body.")
-        .toEqual(returns);
-    });
-  }
-
-  // PUT USER REQUEST
+  // PUT CATEGORIES REQUEST
   public async putCategory(body: any, returns: any, status: any) {
     let statusResponse: number;
     let callResponse: any;
@@ -124,7 +99,7 @@ export class MessageActions {
     });
   }
 
-  // DELETE USER REQUEST
+  // DELETE CATEGORIES REQUEST
   public async deleteCategory(returns: any, status: any) {
     let statusResponse: number;
     let callResponse: any;

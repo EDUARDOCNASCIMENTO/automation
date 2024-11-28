@@ -1,23 +1,37 @@
-import { test } from "../fixtures/commomFixtures"
+import { test, request, APIRequestContext } from "@playwright/test";
+import { MessageData } from "../pom/data/messageDataCategories";
+import { MessageActions } from "../pom/actions/messageActionsCategories";
+import { Env } from "../../../config/config";
 
 test.describe.serial("Validate API", () => {
-  test('01 - GET ALL CATEGORY', async ({ messageActions, messageData }) => {
-    await messageActions.getCategories(messageData.responseGetCategories, 200);
+
+    let messageData: MessageData;
+    let messageActions: MessageActions;
+    let apiRequestContext: APIRequestContext;  
+  
+    test.beforeAll(async () => {
+      apiRequestContext = await request.newContext();
+      messageData = new MessageData();
+      messageActions = new MessageActions(apiRequestContext);
+    });
+
+  test('01 - GET ALL CATEGORY', async () => {
+    await messageActions.getCategories(Env.NULL_USER, messageData.responseGetCategories, 200);
   });
  
-  test('02 - POST NEW CATEGORY', async ({ messageActions, messageData }) => {
+  test('02 - POST NEW CATEGORY', async () => {
     await messageActions.postCategories(messageData.payloadPostCategories, messageData.responsePostCategories, 201);
   });
 
-  test('03 - GET CATEGORY BY ID', async ({ messageActions, messageData }) => {
-    await messageActions.getCategoryById(messageData.responsePostCategories, 200);
+  test('03 - GET CATEGORY BY ID', async () => {
+    await messageActions.getCategories(Env.CATEGORY_ID, messageData.responsePostCategories, 200);
   });
 
-  test('04 - PUT CATEGORY', async ({ messageActions, messageData }) => {
+  test('04 - PUT CATEGORY', async () => {
     await messageActions.putCategory(messageData.payloadPutCategories, messageData.responsePutCategories, 200);
   });
 
-  test('05 - DELETE CATEGORY', async ({ messageActions }) => {
+  test('05 - DELETE CATEGORY', async () => {
     await messageActions.deleteCategory(true, 200);
   }); 
 }); 

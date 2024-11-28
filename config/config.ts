@@ -11,6 +11,7 @@ export class Env {
 
   // Variáveis dinâmicas que podem ser alteradas durante a execução dos testes
   public static USER_ID: string | undefined;
+  public static NULL_USER: string | undefined;
   public static CATEGORY_ID: string | undefined;
 }
 

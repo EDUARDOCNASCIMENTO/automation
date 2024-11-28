@@ -42,58 +42,33 @@ export class MessageActions {
     });
   }
 
-  // GET ALL USERS REQUEST
-  public async getUsers(returns: any, status: any) {
+  // GET USERS REQUEST
+  public async getUser(id: string | undefined, returns: any, status: any) {
     let statusResponse: number;
     let callResponse: any;
 
-    await test.step("1 - GET all users", async () => {
-      const response = await this.reqContext.get(`/api/v1/users`, {
-        headers: {
-          "x-auth-token": `${Env.TOKEN}`,
-        },
-      });
+    const url = id ? `/api/v1/users/${id}` : `/api/v1/users`;
+
+    await test.step(`01 - GET request to ${url}`, async () => {
+      const response = await this.reqContext.get(url);
       statusResponse = response.status();
       callResponse = await response.json();
     });
 
-    await test.step(`2 - Validate GET status: ${status}`, async () => {
+    await test.step(`02 - Validate GET status: ${status}`, async () => {
       expect(statusResponse, "Expected status").toBe(status);
     });
 
-    await test.step("3 - Validate GET response", async () => {
-      expect
-        .soft(callResponse[0], "The response does match the expected body.")
-        .toEqual(returns);
-    });
-  }
-
-  // GET USER BY ID REQUEST
-  public async getUserById(returns: any, status: any) {
-    let statusResponse: number;
-    let callResponse: any;
-
-    await test.step(`01 - GET user by ID: ${Env.USER_ID}`, async () => {
-      const response = await this.reqContext.get(
-        `/api/v1/users/${Env.USER_ID}`,
-        {
-          headers: {
-            "x-auth-token": `${Env.TOKEN}`,
-          },
-        }
-      );
-      statusResponse = response.status();
-      callResponse = await response.json();
-    });
-
-    await test.step(`2 - Validate GET status: ${status}`, async () => {
-      expect(statusResponse, "Expected status").toBe(status);
-    });
-
-    await test.step("3 - Validate GET response", async () => {
-      expect
-        .soft(callResponse, "The GET response does match the expected body.")
-        .toEqual(returns);
+    await test.step("03 - Validate GET response", async () => {
+      if (Array.isArray(callResponse)) {
+        expect
+          .soft(callResponse[0], "The GET ALL response does match the expected body.")
+          .toEqual(returns);
+      } else {
+        expect
+          .soft(callResponse, "The GET BY ID response does match the expected body.")
+          .toEqual(returns);
+      }
     });
   }
 
