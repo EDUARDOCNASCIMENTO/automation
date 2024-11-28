@@ -3,7 +3,6 @@ import { MessageData } from "../pom/data/messageDataUsers";
 import { MessageActions } from "../pom/actions/messageActionsUsers";
 import { Env } from "../../../config/config";
 
-
 test.describe.serial("Validate API", () => {
   
   let messageData: MessageData;
