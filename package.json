@@ -12,17 +12,22 @@
     "@zerostep/playwright": "^0.1.5",
     "allure-commandline": "^2.32.0",
     "allure-playwright": "^3.0.6",
+    "appium": "^2.13.1",
+    "appium-doctor": "^1.16.2",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.1.0"
   },
   "scripts": {
     "tests:chrome": "playwright test --config=playwright.config.ts --project=chromium",
-    "tests:api": "playwright test --config=api.config.ts --project=chromium"
+    "tests:api": "playwright test --config=api.config.ts --project=chromium",
+    "testcuc": "cucumber-js test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "@cucumber/cucumber": "^11.1.0",
+    "dotenv": "^16.4.5",
+    "playwright": "^1.49.0"
   }
 }
