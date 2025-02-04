@@ -1,15 +1,14 @@
 import { test as base } from "@playwright/test";
-import { practiceForm } from "../pom/practiceForm.pom"
-import { practiceSlider } from "../pom/practiceSlider.pom"
+import { signUp } from "../pom/signUp.pom"
 
 type MyFixtures = {
-  practiceForm: practiceForm;
-  practiceSlider: practiceSlider;
+  signUp: signUp
 };
 
 export const test = base.extend<MyFixtures>({
-  practiceForm: async ({ page }, use) => {
-    await use(new practiceForm(page));
+
+  signUp: async ({ page }, use) => {
+    await use(new signUp(page));
   },
 });
 
