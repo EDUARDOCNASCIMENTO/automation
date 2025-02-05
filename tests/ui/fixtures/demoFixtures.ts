@@ -1,8 +1,10 @@
 import { test as base } from "@playwright/test";
 import { signUp } from "../pom/signUp.pom"
+import { login } from "../pom/login.pom"
 
 type MyFixtures = {
   signUp: signUp
+  login: login
 };
 
 export const test = base.extend<MyFixtures>({
@@ -10,6 +12,11 @@ export const test = base.extend<MyFixtures>({
   signUp: async ({ page }, use) => {
     await use(new signUp(page));
   },
+
+  login: async ({ page }, use) => {
+    await use(new login(page));
+  },
+  
 });
 
 export { expect } from "@playwright/test";
